@@ -1,4 +1,3 @@
-
 > A Blog CMS Powered By Vue.js
 
 > 一个前端基于Vue.js，后端基于Node.js的博客内容管理器
@@ -54,3 +53,7 @@ node www
 * 如果需要改动，则在第一次启动前打开server目录下的init.js，初始化数据放在该文件中。
 * 推荐[MongoChef](http://3t.io/mongochef/)作为mongoDB可视化管理工具
 * 如果有疑问，欢迎交流~
+=======
+# juejin
+express leancloud vue restful api
+
