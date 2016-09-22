@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     init = require('./init');
-var setting = require('../setting');
+
 
 userSchema = new Schema({
         name: String,
@@ -32,13 +32,13 @@ userSchema = new Schema({
 
 
 var mongourl = process.env.mongo;
-var localurl = setting.url;
 
 if (mongourl) {
     mongoose.connect(mongourl);
 } else {
+    var setting = require('../setting');
+    var localurl = setting.url;
     mongoose.connect(localurl);
-
 }
 
 mongoose.set('debug', true)
