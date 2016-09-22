@@ -13,7 +13,9 @@
   "dependencies": {
     "babel-runtime": "^6.0.0",
     "body-parser": "~1.15.1",
+    "compression": "^1.6.2",
     "cookie-parser": "~1.4.3",
+    "crypto": "0.0.3",
     "express": "~4.13.4",
     "jade": "~1.11.0",
     "leanengine": "^1.0.0-beta",

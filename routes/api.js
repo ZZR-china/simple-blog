@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var db = require('./db')
+var db = require('../models/main');
 
-router.get('/', function (req, res, next) {
+router.get('/', function(req, res, next) {
     res.render('index', {});
 })
 
-router.get('/article', function (req, res, next) {
+router.get('/article', function(req, res, next) {
     var id = req.query.id
-    db.Article.findOne({_id: id}, function (err, doc) {
+    db.Article.findOne({ _id: id }, function(err, doc) {
         if (err) {
             return console.log(err)
         } else if (doc) {
@@ -17,8 +17,8 @@ router.get('/article', function (req, res, next) {
     })
 })
 
-router.get('/articleList', function (req, res, next) {
-    db.Article.find(null, 'title date', function (err, doc) {
+router.get('/articleList', function(req, res, next) {
+    db.Article.find(null, 'title date', function(err, doc) {
         if (err) {
             return console.log(err)
         } else if (doc) {
@@ -27,11 +27,11 @@ router.get('/articleList', function (req, res, next) {
     })
 })
 
-router.post('/login', function (req, res, next) {
+router.post('/login', function(req, res, next) {
     var name = req.body.userName,
         password = req.body.password,
-        resBody = {state: ''}
-    db.User.findOne({name: name}, 'password', function (err, doc) {
+        resBody = { state: '' }
+    db.User.findOne({ name: name }, 'password', function(err, doc) {
         if (err) {
             return console.log(err)
         } else if (!doc) {
@@ -47,7 +47,7 @@ router.post('/login', function (req, res, next) {
     })
 })
 
-router.post('/save', function (req, res, next) {
+router.post('/save', function(req, res, next) {
     if (req.body.id) {
         var obj = {
             title: req.body.title,
@@ -55,23 +55,22 @@ router.post('/save', function (req, res, next) {
             content: req.body.input
         }
 
-        db.Article.findByIdAndUpdate(req.body.id, obj, function () {
-        })
+        db.Article.findByIdAndUpdate(req.body.id, obj).exec();
     } else {
         var newArticle = new db.Article({
             title: req.body.title,
             date: req.body.date,
             content: req.body.input
         })
-        newArticle.save(function (err) {
-            if (err)return console.log(err)
+        newArticle.save(function(err) {
+            if (err) return console.log(err)
         })
     }
     res.send('OK')
 })
 
-router.post('/getLinks', function (req, res, next) {
-    db.Link.find(null, function (err, doc) {
+router.post('/getLinks', function(req, res, next) {
+    db.Link.find(null, function(err, doc) {
         if (err) {
             return console.log(err)
         } else if (doc) {
@@ -80,32 +79,32 @@ router.post('/getLinks', function (req, res, next) {
     })
 })
 
-router.post('/setLinks', function (req, res, next) {
-    db.Link.remove(null, function (err) {})
-    req.body.links.forEach(function (item) {
+router.post('/setLinks', function(req, res, next) {
+    db.Link.remove(null, function(err) {});
+    req.body.links.forEach(function(item) {
         new db.Link({
             name: item.name,
             href: item.href
-        }).save(function (err) {
-            if (err)return console.log(err)
+        }).save(function(err) {
+            if (err) return console.log(err)
         })
     })
     res.send('ok')
 })
 
-router.post('/savePw', function (req, res, next) {
+router.post('/savePw', function(req, res, next) {
     var name = req.body.userName,
         password = req.body.password
-    db.User.findOneAndUpdate({name: name},
-        {password:password},
-        function () {})
+    db.User.findOneAndUpdate({ name: name }, { password: password },
+        function() {})
     res.send('ok')
 })
 
-router.post('/delete', function (req, res, next) {
-    db.Article.findByIdAndRemove(req.body.id, function (err) {
+router.post('/delete', function(req, res, next) {
+    db.Article.findByIdAndRemove(req.body.id, function(err) {
         console.log(err)
     })
     res.send('ok')
 })
+
 module.exports = router;
