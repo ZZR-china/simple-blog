@@ -1,8 +1,9 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    init = require('./init'),
+    init = require('./init');
+var setting = require('../setting');
 
-    userSchema = new Schema({
+userSchema = new Schema({
         name: String,
         password: String,
     }, {
@@ -29,7 +30,17 @@ var mongoose = require('mongoose'),
     article = new Article(init.article),
     link = new Link(init.link);
 
-mongoose.connect('mongodb://blog:950127@ds139425.mlab.com:39425/blog')
+
+var mongourl = process.env.mongo;
+var localurl = setting.url;
+
+if (mongourl) {
+    mongoose.connect(mongourl);
+} else {
+    mongoose.connect(localurl);
+
+}
+
 mongoose.set('debug', true)
 
 
