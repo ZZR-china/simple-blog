@@ -1,14 +1,14 @@
 {
-  "name": "Blog-of-CMS",
+  "name": "juejin",
   "description": "A Blog CMS Powered by Vue.js",
-  "author": "ycwalker",
+  "author": "zzr",
   "license": "MIT",
   "version": "0.2.0",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --color --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "watch": "webpack --progress --color --watch",
-    "start": "node ./server/www"
+    "start": "node ./server/server"
   },
   "dependencies": {
     "babel-runtime": "^6.0.0",
