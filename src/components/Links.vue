@@ -41,9 +41,9 @@
             }
         },
         created(){
-            this.$http.post('/getLinks')
+            this.$http.get('/links')
                     .then((response)=> {
-                        this.links = JSON.parse(response.body)
+                        this.links = response.body.doc;
                     }, (response)=> {
                         console.log(response)
                     })

@@ -46,9 +46,6 @@ router.post('/login', function(req, res, next) {
             res.send(resBody)
         } else {
             resBody.state = '密码错误';
-
-            resBody.docpassword = doc.password;
-            resBody.password = password;
             res.send(resBody)
         }
     })
@@ -94,27 +91,46 @@ router.post('/save', function(req, res, next) {
     res.send('OK')
 })
 
-router.post('/getLinks', function(req, res, next) {
-    db.Link.find(null, function(err, doc) {
+router.get('/links', function(req, res, next) {
+
+    // var link = new db.Link({
+    //     name: 'zhang',
+    //     href: 'www.zhangzirui.com'
+    // }).save(function(err) {
+    //     if (err) return console.log(err)
+    // })
+
+
+    db.Link.find(null, 'name href', function(err, doc) {
         if (err) {
             return console.log(err)
         } else if (doc) {
-            res.send(doc)
+            res.json({
+                name: doc.name,
+                href: doc.href,
+            });
+        } else if(!doc){
+            res.json({
+                name: 'zzr',
+                href: 'www.zhangzirui.com'
+            });
         }
     })
+
 })
 
 router.post('/setLinks', function(req, res, next) {
     db.Link.remove(null, function(err) {});
-    req.body.links.forEach(function(item) {
-        new db.Link({
+    var links = JSON.parse(req.body.links);
+    links.forEach(function(item) {
+        var link = new db.Link({
             name: item.name,
             href: item.href
         }).save(function(err) {
             if (err) return console.log(err)
         })
     })
-    res.send('ok')
+    res.send('ok');
 })
 
 router.post('/savePw', function(req, res, next) {

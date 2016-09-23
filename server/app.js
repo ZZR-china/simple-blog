@@ -5,6 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('../models/connect');
 
 var api = require('../routes/api');
 var AV = require('leanengine');
@@ -20,6 +21,15 @@ require('./cloud');
 // 加载云引擎中间件
 app.use(AV.express());
 app.use(compression());
+
+//connect mongoose
+var db = mongoose.connection;
+db.on('error', function() {
+    console.log('error')
+})
+db.once('open', function() {
+    console.log('opened');
+})
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

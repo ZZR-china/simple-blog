@@ -1,5 +1,5 @@
 var crypto = require('crypto');
-var mongoose = require('./connect');
+var mongoose = require('mongoose');
 
 
 var userSchema = new mongoose.Schema({

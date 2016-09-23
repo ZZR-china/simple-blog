@@ -78,7 +78,6 @@
         created(){
             let userName = get('user')
             if (userName) {
-                console.log(username);
                 this.setUser(userName)
                 this.$router.go('/console')
             }
