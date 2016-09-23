@@ -77,8 +77,8 @@
         },
         created(){
             let userName = get('user')
-            if (true) {
-                console.log('love');
+            if (userName) {
+                console.log(username);
                 this.setUser(userName)
                 this.$router.go('/console')
             }
@@ -96,8 +96,7 @@
                             userName: this.userName,
                             password: this.password
                         }).then((response)=> {
-                            this.loginResponse(response)
-
+                            this.loginResponse(response);
                         }, (response)=> {
                             console.log(response);
                             console.log(password);

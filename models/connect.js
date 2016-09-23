@@ -17,7 +17,7 @@ db.on('error', function() {
     console.log('error')
 })
 db.once('open', function() {
-    console.log('opened')
+    console.log('opened');
 })
 
 module.exports = mongoose;

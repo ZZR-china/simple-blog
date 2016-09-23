@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../models/main');
+var crypto = require('crypto');
 
 router.get('/', function(req, res, next) {
     res.render('index', {});
@@ -30,7 +31,10 @@ router.get('/articleList', function(req, res, next) {
 router.post('/login', function(req, res, next) {
     var name = req.body.userName,
         password = req.body.password,
-        resBody = { state: '' }
+        resBody = { state: '' };
+    var md5 = crypto.createHash('md5');
+    var password = md5.update(password).digest('hex');
+
     db.User.findOne({ name: name }, 'password', function(err, doc) {
         if (err) {
             return console.log(err)
@@ -38,14 +42,35 @@ router.post('/login', function(req, res, next) {
             resBody.state = '账号不存在'
             res.send(resBody)
         } else if (doc.password === password) {
-            resBody.state = '登陆成功'
+            resBody.state = '登陆成功';
             res.send(resBody)
         } else {
-            resBody.state = '密码错误'
+            resBody.state = '密码错误';
+
+            resBody.docpassword = doc.password;
+            resBody.password = password;
             res.send(resBody)
         }
     })
 })
+
+router.post('/user', function(req, res, next) {
+    var name = req.body.userName;
+    var password = req.body.password;
+    var resBody = { state: '' };
+    db.User.findOne({ name: name }, 'password', function(err, doc) {
+        if (err) {
+            return console.log(err);
+        } else if (doc) {
+            resBody.state = 'usererr';
+            res.send(resBody);
+        } else if (!doc) {
+            resBody.state = 'userright';
+            res.send(resBody);
+        }
+    });
+});
+
 
 router.post('/save', function(req, res, next) {
     if (req.body.id) {

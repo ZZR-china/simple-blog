@@ -36,7 +36,7 @@ import NaviHeader               from './NaviHeader.vue'
         created(){
             let userName = get('user')
             if (!this.userName && !userName) {
-                this.$router.go('/console')
+                this.$router.go('/login')
             } else if (!this.userName) {
                 this.setUser(userName)
             }
