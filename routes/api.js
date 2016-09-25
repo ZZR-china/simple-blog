@@ -19,6 +19,10 @@ router.get('/article', function(req, res, next) {
 })
 
 router.get('/articleList', function(req, res, next) {
+
+    res.set({
+      'Access-Control-Allow-Origin': *,
+    })
     db.Article.find(null, 'title date', function(err, doc) {
         if (err) {
             return console.log(err)

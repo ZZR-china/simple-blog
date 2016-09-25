@@ -3,7 +3,6 @@ var router = express.Router();
 var db = require('../models/main');
 var crypto = require('crypto');
 
-
 router.get('/article', function(req, res, next) {
     var id = req.query.id
     db.Article.findOne({ _id: id }, function(err, doc) {
