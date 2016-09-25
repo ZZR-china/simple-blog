@@ -57,6 +57,7 @@ router.map({
         },
     },
 })
+
 let App = Vue.extend({
     data(){
         return {}

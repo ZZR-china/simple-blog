@@ -9,6 +9,9 @@ router.get('/', function(req, res, next) {
 
 router.get('/article', function(req, res, next) {
     var id = req.query.id
+    res.set({
+      'Access-Control-Allow-Origin': '*',
+    })
     db.Article.findOne({ _id: id }, function(err, doc) {
         if (err) {
             return console.log(err)
