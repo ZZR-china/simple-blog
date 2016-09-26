@@ -63,6 +63,7 @@ router.post('/users', function(req, res, next) {
     next();
 })
 
+
 //get user by id
 router.get('/users/:id', function(req, res, next){
     db.User.findById(req.params.id, function(err, u){
@@ -79,6 +80,31 @@ router.get('/users/:id', function(req, res, next){
         next();
     });
 });
+
+
+
+router.post('/login', function(req, res, next) {
+    var name = req.body.userName,
+        password = req.body.password,
+        resBody = { state: '' };
+    var md5 = crypto.createHash('md5');
+    var password1 = md5.update(password).digest('hex');
+
+    db.User.findOne({ name: name }, 'password', function(err, doc) {
+        if (err) {
+            return console.log(err)
+        } else if (!doc) {
+            resBody.state = '账号不存在'
+            res.send(resBody)
+        } else if (doc.password === password1) {
+            resBody.state = '登陆成功';
+            res.send(resBody)
+        } else {
+            resBody.state = '密码错误';
+            res.send(resBody)
+        }
+    })
+})
 
 
 
