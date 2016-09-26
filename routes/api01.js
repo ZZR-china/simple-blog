@@ -39,7 +39,7 @@ function finduser(db, id){
 //user register
 router.post('/users', function(req, res, next) {
     var name = req.body.userName;
-    var   password = req.body.password;
+    var password = req.body.password;
     var resbody = {state: ''};
     var md5 = crypto.createHash('md5');
     var password = md5.update(password).digest('hex');
@@ -50,12 +50,14 @@ router.post('/users', function(req, res, next) {
     var check = finduser(db.User,{name:name});
     if (check) {
         resbody.state = 'fail';
+        res.send(resbody)
     }else{
         user.save(function(err, user){
             if (err) {
                 return console.log(err);
             }
-            res.json({ id: user._id})
+            resbody.state = 'success';
+                    res.send(resbody)
         })
     }
     next();

@@ -5,9 +5,9 @@
         </div>
         <ul class="menu">
             <li v-for="link in links">
-                <a :href="link.href">
+                <!-- <a :href="link.href">
                     {{link.name}}
-                </a>
+                </a> -->
             </li>
         </ul>
     </header>
@@ -20,12 +20,12 @@
             }
         },
         created(){
-            this.$http.post('/getLinks')
-                    .then((response)=> {
-                        this.links = JSON.parse(response.body)
-                    }, (response)=> {
-                        console.log(response)
-                    })
+            // this.$http.post('/getLinks')
+            //         .then((response)=> {
+            //             this.links = JSON.parse(response.body)
+            //         }, (response)=> {
+            //             console.log(response)
+            //         })
         }
 
     }

@@ -3,14 +3,17 @@ var router = express.Router();
 var db = require('../models/main');
 var crypto = require('crypto');
 
+
 router.get('/', function(req, res, next) {
     res.render('index', {});
 })
 
+
+
 router.get('/article', function(req, res, next) {
     var id = req.query.id
     res.set({
-      'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': '*',
     })
     db.Article.findOne({ _id: id }, function(err, doc) {
         if (err) {
@@ -23,7 +26,7 @@ router.get('/article', function(req, res, next) {
 
 router.get('/articleList', function(req, res, next) {
     res.set({
-      'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': '*',
     })
     db.Article.find(null, 'title date', function(err, doc) {
         if (err) {
@@ -39,7 +42,7 @@ router.post('/login', function(req, res, next) {
         password = req.body.password,
         resBody = { state: '' };
     var md5 = crypto.createHash('md5');
-    var password = md5.update(password).digest('hex');
+    var password1 = md5.update(password).digest('hex');
 
     db.User.findOne({ name: name }, 'password', function(err, doc) {
         if (err) {
@@ -47,7 +50,7 @@ router.post('/login', function(req, res, next) {
         } else if (!doc) {
             resBody.state = '账号不存在'
             res.send(resBody)
-        } else if (doc.password === password) {
+        } else if (doc.password === password1) {
             resBody.state = '登陆成功';
             res.send(resBody)
         } else {
@@ -98,15 +101,6 @@ router.post('/save', function(req, res, next) {
 })
 
 router.get('/links', function(req, res, next) {
-
-    // var link = new db.Link({
-    //     name: 'zhang',
-    //     href: 'www.zhangzirui.com'
-    // }).save(function(err) {
-    //     if (err) return console.log(err)
-    // })
-
-
     db.Link.find(null, 'name href', function(err, doc) {
         if (err) {
             return console.log(err)
@@ -115,7 +109,7 @@ router.get('/links', function(req, res, next) {
                 name: doc.name,
                 href: doc.href,
             });
-        } else if(!doc){
+        } else if (!doc) {
             res.json({
                 name: 'zzr',
                 href: 'www.zhangzirui.com'
@@ -141,8 +135,10 @@ router.post('/setLinks', function(req, res, next) {
 
 router.post('/savePw', function(req, res, next) {
     var name = req.body.userName,
-        password = req.body.password
-    db.User.findOneAndUpdate({ name: name }, { password: password },
+        password = req.body.password;
+    var md5 = crypto.createHash('md5');
+    var passwordmd = md5.update(password).digest('hex');
+    db.User.findOneAndUpdate({ name: name }, { password: passwordmd },
         function() {})
     res.send('ok')
 })

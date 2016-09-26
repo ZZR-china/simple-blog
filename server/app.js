@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('../models/connect');
 
 var api = require('../routes/api');
+var api1 = require('../routes/api01');
 var AV = require('leanengine');
 
 var app = express();
@@ -40,7 +41,17 @@ app.use(cookieParser());
 app.use('/public',express.static(path.join(__dirname, '../public')));
 
 
+app.use(function(req,res,next){
+  res.set({
+      'Access-Control-Allow-Origin': '*',
+    });
+  next();
+});
 app.use('/', api);
+app.use('/v1', api1);
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
