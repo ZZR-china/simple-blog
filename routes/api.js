@@ -9,7 +9,6 @@ router.get('/', function(req, res, next) {
 })
 
 
-
 router.get('/article', function(req, res, next) {
     var id = req.query.id
     res.set({
@@ -29,6 +28,20 @@ router.get('/articleList', function(req, res, next) {
         'Access-Control-Allow-Origin': '*',
     })
     db.Article.find(null, 'title date', function(err, doc) {
+        if (err) {
+            return console.log(err)
+        } else if (doc) {
+            res.send(doc)
+        }
+    })
+})
+
+
+router.get('/users', function(req, res, next) {
+    res.set({
+        'Access-Control-Allow-Origin': '*',
+    })
+    db.User.find(null, 'name password', function(err, doc) {
         if (err) {
             return console.log(err)
         } else if (doc) {
@@ -138,16 +151,18 @@ router.post('/savePw', function(req, res, next) {
         password = req.body.password;
     var md5 = crypto.createHash('md5');
     var passwordmd = md5.update(password).digest('hex');
-    db.User.findOneAndUpdate({ name: name }, { password: passwordmd },
-        function() {})
-    res.send('ok')
+    db.User.findOneAndUpdate({ name: name }, { $set: { password: passwordmd } }, function(err) {
+        if (err) {
+            console.log(err)
+        }
+    });
 })
 
-router.post('/delete', function(req, res, next) {
-    db.Article.findByIdAndRemove(req.body.id, function(err) {
-        console.log(err)
-    })
-    res.send('ok')
-})
+// router.delete('/delete', function(req, res, next) {
+//     db.Article.findOneAndRemove(req.body.name, function(err) {
+//         console.log(err)
+//     })
+//     res.send('ok')
+// })
 
 module.exports = router;

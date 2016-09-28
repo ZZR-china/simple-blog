@@ -12,6 +12,8 @@ var articleSchema = new Schema({
     title: String,
     date: Date,
     content: String,
+    comments: [],
+    tags: []
 });
 
 var linkSchema = new Schema({

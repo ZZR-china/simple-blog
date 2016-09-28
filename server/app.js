@@ -41,14 +41,14 @@ app.use(cookieParser());
 app.use('/public',express.static(path.join(__dirname, '../public')));
 
 
+app.use('/', api);
 app.use(function(req,res,next){
   res.set({
       'Access-Control-Allow-Origin': '*',
     });
   next();
 });
-app.use('/', api);
-app.use('/v1', api1);
+app.use('/api/v1', api1);
 
 
 
